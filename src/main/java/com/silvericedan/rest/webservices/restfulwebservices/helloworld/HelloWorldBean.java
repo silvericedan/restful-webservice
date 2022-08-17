@@ -1,4 +1,4 @@
-package com.silvericedan.rest.webservices.restfulwebservices;
+package com.silvericedan.rest.webservices.restfulwebservices.helloworld;
 
 public class HelloWorldBean {
 
