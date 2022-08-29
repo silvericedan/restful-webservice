@@ -2,20 +2,30 @@ package com.silvericedan.rest.webservices.restfulwebservices.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Builder
+@Entity(name = "user_details")
+@Builder(toBuilder = true)
+@AllArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@Setter(value = AccessLevel.PACKAGE)
 @Getter
-@Setter
 @ToString
 public class User {
 
-
+  @Id
+  @GeneratedValue
   private Integer id;
 
   @Size(min=2, message = "Name should have at least 2 characters")
