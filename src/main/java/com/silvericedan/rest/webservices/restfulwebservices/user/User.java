@@ -1,10 +1,14 @@
 package com.silvericedan.rest.webservices.restfulwebservices.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.silvericedan.rest.webservices.restfulwebservices.Post;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import lombok.AccessLevel;
@@ -35,4 +39,7 @@ public class User {
   @Past(message = "Birth Date must be a past date")
   private Date birthDate;
 
+  @OneToMany(mappedBy = "user")
+  @JsonIgnore
+  private List<Post> posts;
 }

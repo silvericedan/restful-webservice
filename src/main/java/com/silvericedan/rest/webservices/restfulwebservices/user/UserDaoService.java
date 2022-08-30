@@ -1,3 +1,4 @@
+/*
 package com.silvericedan.rest.webservices.restfulwebservices.user;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class UserDaoService {
 
   private static int usersCount = 3;
 
-  static{
+ static{
     users.add(new User(1, "Adam", new Date()));
     users.add(new User(2, "Eve", new Date()));
     users.add(new User(3, "Jack", new Date()));
@@ -51,3 +52,4 @@ public class UserDaoService {
     return null;
   }
 }
+*/

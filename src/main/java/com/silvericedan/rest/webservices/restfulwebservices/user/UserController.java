@@ -1,3 +1,4 @@
+/*
 package com.silvericedan.rest.webservices.restfulwebservices.user;
 
 import java.net.URI;
@@ -66,3 +67,4 @@ public class UserController {
     return ResponseEntity.created(location).build();
   }
 }
+*/

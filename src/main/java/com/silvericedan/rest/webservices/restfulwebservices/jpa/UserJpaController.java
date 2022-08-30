@@ -3,8 +3,8 @@ package com.silvericedan.rest.webservices.restfulwebservices.jpa;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import com.silvericedan.rest.webservices.restfulwebservices.Post;
 import com.silvericedan.rest.webservices.restfulwebservices.user.User;
-import com.silvericedan.rest.webservices.restfulwebservices.user.UserDaoService;
 import com.silvericedan.rest.webservices.restfulwebservices.user.UserNotFoundException;
 import java.net.URI;
 import java.util.List;
@@ -24,9 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class UserJpaController {
-
-  @Autowired
-  private UserDaoService service;
 
   @Autowired
   private UserRepository repository;
@@ -54,6 +51,14 @@ public class UserJpaController {
       throw new UserNotFoundException("id-"+id);
     }
    repository.deleteById(id);
+  }
+
+  @GetMapping("/jpa/users/{id}/posts")
+  public List<Post> retrievePostsForUser(@PathVariable int id){
+    Optional<User> user = repository.findById(id);
+    if(user.isEmpty())
+      throw new UserNotFoundException("id-"+id);
+    return user.get().getPosts();
   }
 
   //input - details of user
