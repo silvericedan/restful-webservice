@@ -26,16 +26,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class UserJpaController {
 
   @Autowired
-  private UserRepository repository;
+  private UserRepository userRepository;
+
+  @Autowired
+  private PostRepository postRepository;
 
   @GetMapping("/jpa/users")
   public List<User> retrieveAllUsers(){
-    return repository.findAll();
+    return userRepository.findAll();
   }
 
   @GetMapping("/jpa/users/{id}")
   public EntityModel<User> retrieveUser(@PathVariable int id){
-    Optional<User> user = repository.findById(id);
+    Optional<User> user = userRepository.findById(id);
     if(user.isEmpty())
       throw new UserNotFoundException("id-"+id);
 
@@ -47,15 +50,15 @@ public class UserJpaController {
 
   @DeleteMapping("/jpa/users/{id}")
   public void deleteUser(@PathVariable int id){
-    if(!repository.existsById(id)){
+    if(!userRepository.existsById(id)){
       throw new UserNotFoundException("id-"+id);
     }
-   repository.deleteById(id);
+   userRepository.deleteById(id);
   }
 
   @GetMapping("/jpa/users/{id}/posts")
   public List<Post> retrievePostsForUser(@PathVariable int id){
-    Optional<User> user = repository.findById(id);
+    Optional<User> user = userRepository.findById(id);
     if(user.isEmpty())
       throw new UserNotFoundException("id-"+id);
     return user.get().getPosts();
@@ -65,12 +68,27 @@ public class UserJpaController {
   //output - CREATED & Return the created URI
   @PostMapping("/jpa/users")
   public ResponseEntity<Object> createUser(@Valid @RequestBody User user){
-    User savedUser = repository.save(user);
+    User savedUser = userRepository.save(user);
 
     URI location = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("/{id}")
         .buildAndExpand(savedUser.getId()).toUri();
+    return ResponseEntity.created(location).build();
+  }
+
+  @PostMapping("/jpa/users/{id}/posts")
+  public ResponseEntity<Object> createPostsForUser(@PathVariable int id,@Valid @RequestBody Post post){
+    Optional<User> user = userRepository.findById(id);
+    if(user.isEmpty())
+      throw new UserNotFoundException("id-"+id);
+    post.setUser(user.get());
+    Post savedPost = postRepository.save(post);
+
+    URI location = ServletUriComponentsBuilder
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(savedPost.getId()).toUri();
     return ResponseEntity.created(location).build();
   }
 }

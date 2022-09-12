@@ -18,3 +18,5 @@ values(20003,'I want to learn Devops', 10002);
 
 insert into post(id,description,user_id)
 values(20004,'I want to learn Multi Cloud', 10002);
+
+<!-- data.sql only works when connected to a in-memory database -->
